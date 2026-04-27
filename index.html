@@ -83,6 +83,19 @@
 				text-align: center;
 				margin: 20px 0;
 			}
+
+			/* This makes the link invisible to the naked eye */
+			.secret-link {
+				color: inherit;          /* Takes the color of the footer text (#454545) */
+				text-decoration: none;   /* Removes the underline */
+				cursor: default;         /* Hides the 'hand' pointer icon */
+				user-select: none;       /* Prevents the link from being highlighted easily */
+			}
+
+			/* Optional: Only show a hint when someone hovers for a long time */
+			.secret-link:active {
+				opacity: 0.5;            /* Gives a tiny bit of feedback only when clicked */
+			}
 		</style>
 	</head>
 	<body>
@@ -107,8 +120,8 @@
 		</main>	
 
 		<footer>
-			Copyright &copy; 2026 Kelly Williams
-			Last Updated: April 12, 2026
+			Copyright <a href="for_fun/index.html" class="secret-link">&copy;</a>  2026 Kelly Williams
+			<br>
 			<aside><em> Some content generated using Gemini 3 Flash</em></aside>
 		</footer>
 	</body>

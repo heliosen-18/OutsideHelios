@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Override | Authorization Required</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <style>
+        /* Specific styles for the PIN interface */
+        .pin-wrapper {
+            max-width: 320px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .pin-display {
+            background: #000;
+            border: 2px solid var(--accent-color);
+            border-radius: 4px;
+            height: 60px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            letter-spacing: 15px;
+            color: var(--accent-color);
+            box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.2);
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .key {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            color: var(--text-main);
+            padding: 20px;
+            font-size: 1.2rem;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            transition: all 0.1s;
+            border-radius: 4px;
+        }
+
+        .key:hover {
+            background: #334155;
+            border-color: var(--accent-color);
+        }
+
+        .key:active {
+            background: var(--accent-color);
+            color: #000;
+        }
+
+        .key.wide {
+            grid-column: span 3;
+            margin-top: 10px;
+            background: #0ea5e9;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .error-text {
+            color: #ef4444;
+            font-size: 0.8rem;
+            margin-top: 20px;
+            height: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="classification-banner">
+        TOP SECRET <span class="compartment"> // SI-TK // NOFORN</span>
+    </div>
+
+    <div class="content-container">
+        <h2>Mission Dashboard: Labor Day</h2>
+        <p>This page is now under strict Level 4 authorization protocol. Proceed with the geocache validation sequence.</p>
+    </div>
+
+    <div class="terminal-container">
+        <header class="terminal-header">
+            <div class="status-indicator">
+                <span class="pulse-dot" style="background-color: #f1c40f; box-shadow: 0 0 8px #f1c40f;"></span>
+                <span class="status-text">AUTHORIZATION REQUIRED // ATTEMPT 01</span>
+            </div>
+            <h1>Security Override</h1>
+            <p class="coords">ENCRYPTION: AES-256-GCM</p>
+        </header>
+
+        <main>
+            <div class="pin-wrapper">
+                <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 20px;">
+                    INPUT RECOVERY KEY
+                </p>
+                
+                <!-- Display for the PIN -->
+                <div class="pin-display" id="display">****</div>
+
+                <!-- Keypad Grid -->
+                <div class="keypad">
+                    <button class="key">1</button>
+                    <button class="key">2</button>
+                    <button class="key">3</button>
+                    <button class="key">4</button>
+                    <button class="key">5</button>
+                    <button class="key">6</button>
+                    <button class="key">7</button>
+                    <button class="key">8</button>
+                    <button class="key">9</button>
+                    <button class="key" style="color: #ef4444;">CLR</button>
+                    <button class="key">0</button>
+                    <button class="key" style="color: var(--terminal-green);">ENT</button>
+                </div>
+
+                <div class="error-text" id="error-msg"></div>
+            </div>
+        </main>
+
+        <footer>
+            <p>WARNING: UNAUTHORIZED ACCESS PROHIBITED<br>REFER TO PHYSICAL GEOCACHE FOR KEY</p>
+        </footer>
+    </div>
+    <script>
+    const display = document.getElementById('display');
+    const errorMsg = document.getElementById('error-msg');
+    let currentInput = "";
+    const correctPin = "1993"; // Replace with the PIN you hide in the geocache!
+
+    // Get all buttons and add click events
+    document.querySelectorAll('.key').forEach(button => {
+        button.addEventListener('click', () => {
+            const value = button.innerText;
+
+            if (value === 'CLR') {
+                currentInput = "";
+                errorMsg.innerText = "";
+            } else if (value === 'ENT') {
+                if (currentInput === correctPin) {
+                    // Success! Redirect to the itinerary reveal
+                    window.location.href = "itinerary.html"; 
+                } else {
+                    errorMsg.innerText = "ACCESS DENIED: INVALID KEY";
+                    currentInput = "";
+                }
+            } else {
+                // Limit to 4 digits
+                if (currentInput.length < 4) {
+                    currentInput += value;
+                }
+            }
+
+            // Update the display (use '*' to hide the PIN or 'currentInput' to show it)
+            display.innerText = currentInput.padEnd(4, "*").replace(/[0-9]/g, "*");
+        });
+    });
+    </script>
+</body>
+</html>

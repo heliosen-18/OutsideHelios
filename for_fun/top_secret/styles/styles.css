@@ -153,3 +153,84 @@ footer {
     color: var(--text-dim);
     text-align: center;
 }
+
+#countdown-clock {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #591F0A; /* Your typography color */
+  text-align: center;
+}
+
+#countdown-clock div {
+  background: #FDFCF0; /* Your background color */
+  padding: 15px;
+  border-radius: 8px;
+  border: 2px solid #0267C1; /* Your primary blue */
+  min-width: 80px;
+}
+
+#countdown-clock span {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #0075C4; /* Your link/UI blue */
+}
+
+.loading-text {
+    font-family: 'Segoe UI', sans-serif;
+    color: #591F0A; /* Your typography color */
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.dots::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    /* This animation named 'cycle' takes 2 seconds and repeats forever */
+    animation: cycle 2s infinite;
+    text-align: left;
+}
+
+@keyframes cycle {
+    0%   { content: ''; }
+    25%  { content: '.'; }
+    50%  { content: '..'; }
+    75%  { content: '...'; }
+    100% { content: ''; }
+}
+
+.code-window {
+    background-color: #000; /* Black background */
+    color: #0267C1;        /* Using your primary blue for the code */
+    font-family: 'Courier New', Courier, monospace;
+    padding: 15px;
+    height: 300px;
+    overflow-y: hidden;    /* Hides the scrollbar for a cleaner look */
+    border: 2px solid #591F0A; 
+    border-radius: 5px;
+    font-size: 0.9rem;
+    line-height: 1.2;
+}
+
+.unlock-btn {
+    background-color: #EFA00B; /* Your CTA Gold */
+    color: #591F0A;            /* Your Typography Red-Brown */
+    padding: 15px 30px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    border: 3px solid #D65108; /* Your Secondary Orange for a border */
+    border-radius: 5px;
+    display: inline-block;
+    transition: transform 0.2s, background-color 0.2s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.unlock-btn:hover {
+    background-color: #D65108; /* Shifts to Orange on hover */
+    color: #FDFCF0;            /* Light text on hover */
+    transform: scale(1.05);    /* Slight pop-out effect */
+}

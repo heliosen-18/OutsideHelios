@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAC | Mission Dashboard</title>
+    <link rel="stylesheet" href="top_secret/styles/styles.css">
+    <style>
+        .objective-grid {
+            display: grid;
+            grid-template-rows: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .objective-card {
+            background: rgba(2, 103, 193, 0.05); /* Brand Blue */
+            border: 1px solid #D65108; /* Burnt Orange */
+            padding: 20px;
+            border-radius: 4px;
+            position: relative;
+            transition: all 0.4s ease;
+            min-height: 180px;
+        }
+
+        /* Locked State Overlay */
+        .objective-card.locked {
+            opacity: 0.5;
+            filter: grayscale(1);
+            border: 1px dashed #591F0A; /* Deep Brown */
+        }
+
+        .objective-card.locked .clue-text {
+            display: none; /* Hide the hint until decrypted */
+        }
+
+        .objective-card.locked::after {
+            content: "🔒 ENCRYPTED DATA";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #591F0A;
+            font-size: 2rem;
+        }
+
+        .objective-card h3 { color: #0267C1; margin-bottom: 10px; text-transform: uppercase; }
+        
+        .unlock-zone {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(214, 81, 8, 0.3);
+        }
+
+        input.code-input {
+            width: 100%;
+            padding: 8px;
+            background: #FDFCF0;
+            border: 1px solid #0267C1;
+            color: #591F0A;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+        }
+
+        .unlock-msg { font-size: 0.7rem; color: #ef4444; margin-top: 5px; height: 12px; }
+        
+        /* Reset Button Styling */
+        .reset-btn {
+            background: none;
+            border: none;
+            color: #591F0A;
+            font-size: 0.6rem;
+            cursor: pointer;
+            opacity: 0.3;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="classification-banner">
+        TOP SECRET <span class="compartment"> // SI-TK // NOFORN</span>
+    </div>
+
+    <div class="terminal-container">
+        <header class="terminal-header">
+            <div class="status-indicator">
+                <span class="pulse-dot"></span>
+                <span class="status-text">DECRYPTION ENGINE: SEQUENTIAL MODE</span>
+            </div>
+            <h1>Mission Dashboard</h1>
+            <p class="coords">PROGRESS: <span id="progress-percent">25</span>%</p>
+        </header>
+
+        <main>
+            <div class="objective-grid">
+                <div class="objective-card" id="card-alpha">
+                    <h3>Alpha: Campus Sector</h3>
+                    <p>
+                        Start where your labor fills eight hours of day,<br>
+                        Where the campus routine is the price that we pay.<br>
+                        Seek out the musician with the deep, bronze sound,<br>
+                        Whose heavy bass notes never leave the ground.<br>
+                        Follow his gaze to a bowl made of stone,<br>
+                        Where the rain gathers up when the musician’s alone.<br>
+                        Pivot toward East, to the boulder's backside,<br>
+                        In the curve of the rock, the secret will hide.<br>
+                    </p>
+                    <div class="unlock-zone" id="zone-alpha">
+                        <input type="text" class="code-input" placeholder="ENTER ALPHA KEY" id="input-alpha">
+                        <div class="unlock-msg" id="msg-alpha"></div>
+                    </div>
+                </div>
+
+                <div class="objective-card locked" id="card-bravo">
+                    <h3>Bravo: Aspen Sector</h3>
+                    <div class="clue-text">
+                        <p>Search where the river meets the trail markers near the old bridge.</p>
+                        <div class="unlock-zone" id="zone-bravo">
+                            <input type="text" class="code-input" placeholder="ENTER BRAVO KEY" id="input-bravo">
+                            <div class="unlock-msg" id="msg-bravo"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="objective-card locked" id="card-charlie">
+                    <h3>Charlie: Pine Sector</h3>
+                    <div class="clue-text">
+                        <p>Intercept the structural anomaly at the base of the designated desert overlook.</p>
+                        <div class="unlock-zone" id="zone-charlie">
+                            <input type="text" class="code-input" placeholder="ENTER CHARLIE KEY" id="input-charlie">
+                            <div class="unlock-msg" id="msg-charlie"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="objective-card locked" id="card-delta">
+                    <h3>Delta: Flight Sector</h3>
+                    <div class="clue-text">
+                        <p>Locate the plaque at the Pilot Butte summit to obtain the final authorization code.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-bar">
+                <a href="index.html" class="btn">Return to Mission Briefing</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>PROPERTY OF THE JOINT ADVENTURE COMMAND // UNAUTHORIZED ACCESS PROHIBITED // 2026</p>
+            <button onclick="resetMission()" class="reset-btn">System Reset</button>
+        </footer>
+    </div>
+
+    <script>
+        // Physical recovery keys to be placed in geocaches
+        const keys = {
+            alpha: "BASS",
+            bravo: "BRIDGE",
+            charlie: "COFFEE"
+        };
+
+        function updateUI() {
+            let unlockedCount = 1;
+            
+            // Check LocalStorage for persistent progress
+            if(localStorage.getItem('bravoUnlocked')) {
+                document.getElementById('card-bravo').classList.remove('locked');
+                document.getElementById('zone-alpha').style.display = 'none';
+                unlockedCount++;
+            }
+            if(localStorage.getItem('charlieUnlocked')) {
+                document.getElementById('card-charlie').classList.remove('locked');
+                document.getElementById('zone-bravo').style.display = 'none';
+                unlockedCount++;
+            }
+            if(localStorage.getItem('deltaUnlocked')) {
+                document.getElementById('card-delta').classList.remove('locked');
+                document.getElementById('zone-charlie').style.display = 'none';
+                document.getElementById('final-action').style.display = 'block';
+                unlockedCount++;
+            }
+
+            document.getElementById('progress-percent').innerText = (unlockedCount / 4) * 100;
+        }
+
+        // Logic for entering physical codes
+        document.querySelectorAll('.code-input').forEach(input => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const stage = input.id.split('-')[1];
+                    if (input.value.toUpperCase() === keys[stage]) {
+                        const nextStage = stage === 'alpha' ? 'bravo' : stage === 'bravo' ? 'charlie' : 'delta';
+                        localStorage.setItem(nextStage + 'Unlocked', 'true');
+                        input.value = "";
+                        updateUI();
+                    } else {
+                        document.getElementById('msg-' + stage).innerText = "ACCESS DENIED: INVALID KEY";
+                    }
+                }
+            });
+        });
+
+        // Manual reset for testing or restarting the mission
+        function resetMission() {
+            if(confirm("DANGER: Wiping all mission data. Confirm?")) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        // Initial UI state setup
+        updateUI();
+    </script>
+</body>
+</html>

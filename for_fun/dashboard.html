@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAC | Mission Dashboard</title>
+    <title>OHNet | Mission Dashboard</title>
+    <link rel="icon" type="image/png" href="/logo/Asset_1.png">
     <link rel="stylesheet" href="top_secret/styles/styles.css">
     <style>
         .objective-grid {
@@ -26,7 +27,7 @@
         /* Locked State Overlay */
         .objective-card.locked {
             opacity: 0.5;
-            filter: grayscale(1);
+            filter: grayscale(.5);
             border: 1px dashed #591F0A; /* Deep Brown */
         }
 
@@ -43,7 +44,7 @@
             font-family: 'Courier New', monospace;
             font-weight: bold;
             color: #591F0A;
-            font-size: 2rem;
+            font-size: 1.2rem;
         }
 
         .objective-card h3 { color: #0267C1; margin-bottom: 10px; text-transform: uppercase; }
@@ -96,7 +97,7 @@
         <main>
             <div class="objective-grid">
                 <div class="objective-card" id="card-alpha">
-                    <h3>Alpha: Campus Sector</h3>
+                    <h3>Objective Alpha:<br> Campus Sector</h3>
                     <p>
                         Start where your labor fills eight hours of day,<br>
                         Where the campus routine is the price that we pay.<br>
@@ -106,6 +107,8 @@
                         Where the rain gathers up when the musician’s alone.<br>
                         Pivot toward East, to the boulder's backside,<br>
                         In the curve of the rock, the secret will hide.<br>
+                        If the trail has gone cold and you need a new heaven,<br>
+                        Just remember the Chill Cat’s favorite number is eleven.
                     </p>
                     <div class="unlock-zone" id="zone-alpha">
                         <input type="text" class="code-input" placeholder="ENTER ALPHA KEY" id="input-alpha">
@@ -114,9 +117,18 @@
                 </div>
 
                 <div class="objective-card locked" id="card-bravo">
-                    <h3>Bravo: Aspen Sector</h3>
+                    <h3>Objective Bravo:<br> Aspen Sector</h3>
                     <div class="clue-text">
-                        <p>Search where the river meets the trail markers near the old bridge.</p>
+                        <p>
+                            <h3>ACCESS GRANTED. INITIALIZING BRAVO RECONNAISSANCE.</h3>
+                            
+                            <h4>INTEL RECOVERY:</h4> > Head to the Safety precinct. You must locate Asset: WENDY.
+
+                            <h4>PROCEDURE:</h4> > Approach the desk using the code phrase: "I'M HERE FOR THE TRANSIT LOGS." 
+                            <br>
+                            > She is holding a classified transport vehicle and your next set of coordinates.
+                            <h4>CAUTION:</h4> High-traffic area. Maintain your cover.
+                        </p>
                         <div class="unlock-zone" id="zone-bravo">
                             <input type="text" class="code-input" placeholder="ENTER BRAVO KEY" id="input-bravo">
                             <div class="unlock-msg" id="msg-bravo"></div>
@@ -125,9 +137,18 @@
                 </div>
 
                 <div class="objective-card locked" id="card-charlie">
-                    <h3>Charlie: Pine Sector</h3>
+                    <h3>Objective Charlie:<br> Pine Sector</h3>
                     <div class="clue-text">
-                        <p>Intercept the structural anomaly at the base of the designated desert overlook.</p>
+                        <p>
+                            <h3>ACCESS GRANTED. INITIALIZING CHARLIE RECONNAISSANCE.</h3>
+                            
+                            <h4>INTEL RECOVERY:</h4> > Head to the Manchester precinct. You must locate Asset: WHITNEY.
+
+                            <h4>PROCEDURE:</h4> > Approach the door using the code phrase: "THE WATER IS FINE TODAY." 
+                            <br>
+                            > She is holding the classified terrain projection and your next set of coordinates.
+                            <h4>CAUTION:</h4>Manchester Precinct is guarded by a Sentient Loaf (Codename: TOFFEE). Known for high-frequency barks and tactical ankle-nipping. Do not let the stubby legs fool you; the Loaf is a master of psychological warfare. Avoid direct eye contact unless you have a high-value treat for bribery. 
+                        </p>
                         <div class="unlock-zone" id="zone-charlie">
                             <input type="text" class="code-input" placeholder="ENTER CHARLIE KEY" id="input-charlie">
                             <div class="unlock-msg" id="msg-charlie"></div>
@@ -136,13 +157,26 @@
                 </div>
 
                 <div class="objective-card locked" id="card-delta">
-                    <h3>Delta: Flight Sector</h3>
+                    <h3>Objective Delta:<br> Flight Sector</h3>
                     <div class="clue-text">
-                        <p>Locate the plaque at the Pilot Butte summit to obtain the final authorization code.</p>
+                        <p>
+                            <h3>ACCESS GRANTED. INITIALIZING DELTA RECONNAISSANCE.</h3>
+                            
+                            <h4>INTEL RECOVERY:</h4> > Head to the Safety precinct. You must locate Asset: WENDY.
+
+                            <h4>PROCEDURE:</h4> > Approach the desk using the code phrase: "I'M HERE FOR THE TRANSIT LOGS." 
+                            <br>
+                            > She is holding a classified transport vehicle and your next set of coordinates.
+                            <h4>CAUTION:</h4> High-traffic area. Maintain your cover.
+                            <br><br>
+                            <div class="action-bar">
+                                <a href="/for_fun/top_secret/decode.html" class="btn">Cypher Decoder</a>
+                            </div>
+                        </p>
                     </div>
                 </div>
             </div>
-
+            <br>
             <div class="action-bar">
                 <a href="index.html" class="btn">Return to Mission Briefing</a>
             </div>

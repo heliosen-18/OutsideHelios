@@ -157,7 +157,7 @@
                 </div>
 
                 <div class="objective-card locked" id="card-delta">
-                    <h3>Objective Delta:<br> Flight Sector</h3>
+                    <h3>Objective Delta:<br> Loop Sector</h3>
                     <div class="clue-text">
                         <p>
                             <h3>ACCESS GRANTED. INITIALIZING DELTA RECONNAISSANCE.</h3>
@@ -168,9 +168,28 @@
                             <br>
                             > She is holding a classified transport vehicle and your next set of coordinates.
                             <h4>CAUTION:</h4> High-traffic area. Maintain your cover.
+                        <div class="unlock-zone" id="zone-delta">
+                            <input type="text" class="code-input" placeholder="ENTER DELTA KEY" id="input-delta">
+                            <div class="unlock-msg" id="msg-delta"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="objective-card locked" id="card-echo">
+                    <h3>Objective Echo:<br> Pilot Sector</h3>
+                    <div class="clue-text">
+                        <p>
+                            <h3>ACCESS GRANTED. INITIALIZING ECHO RECONNAISSANCE.</h3>
+                            
+                            <h4>INTEL RECOVERY:</h4> > Head to the Safety precinct. You must locate Asset: WENDY.
+
+                            <h4>PROCEDURE:</h4> > Approach the desk using the code phrase: "I'M HERE FOR THE TRANSIT LOGS." 
+                            <br>
+                            > She is holding a classified transport vehicle and your next set of coordinates.
+                            <h4>CAUTION:</h4> High-traffic area. Maintain your cover.
                             <br><br>
                             <div class="action-bar">
-                                <a href="/for_fun/top_secret/decode.html" class="btn">Cypher Decoder</a>
+                                <a href="/for_fun/top_secret/decode.html" class="btn">Cipher Encoder/Decoder</a>
                             </div>
                         </p>
                     </div>
@@ -189,17 +208,16 @@
     </div>
 
     <script>
-        // Physical recovery keys to be placed in geocaches
         const keys = {
             alpha: "BASS",
-            bravo: "BRIDGE",
-            charlie: "COFFEE"
+            bravo: "SHEVLIN",
+            charlie: "COFFEE",
+            delta: "HOME"
         };
 
         function updateUI() {
             let unlockedCount = 1;
             
-            // Check LocalStorage for persistent progress
             if(localStorage.getItem('bravoUnlocked')) {
                 document.getElementById('card-bravo').classList.remove('locked');
                 document.getElementById('zone-alpha').style.display = 'none';
@@ -213,20 +231,31 @@
             if(localStorage.getItem('deltaUnlocked')) {
                 document.getElementById('card-delta').classList.remove('locked');
                 document.getElementById('zone-charlie').style.display = 'none';
-                document.getElementById('final-action').style.display = 'block';
+                unlockedCount++;            
+            }
+            if(localStorage.getItem('echoUnlocked')) {
+                document.getElementById('card-echo').classList.remove('locked');
+                document.getElementById('zone-delta').style.display = 'none';
                 unlockedCount++;
             }
 
-            document.getElementById('progress-percent').innerText = (unlockedCount / 4) * 100;
+            // Updated for 5 total cards
+            document.getElementById('progress-percent').innerText = Math.round((unlockedCount / 5) * 100);
         }
 
-        // Logic for entering physical codes
         document.querySelectorAll('.code-input').forEach(input => {
             input.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     const stage = input.id.split('-')[1];
                     if (input.value.toUpperCase() === keys[stage]) {
-                        const nextStage = stage === 'alpha' ? 'bravo' : stage === 'bravo' ? 'charlie' : 'delta';
+                        // Map the key entered to the next card to unlock
+                        const nextUnlockMap = {
+                            alpha: 'bravo',
+                            bravo: 'charlie',
+                            charlie: 'delta',
+                            delta: 'echo'
+                        };
+                        const nextStage = nextUnlockMap[stage];
                         localStorage.setItem(nextStage + 'Unlocked', 'true');
                         input.value = "";
                         updateUI();
@@ -237,7 +266,6 @@
             });
         });
 
-        // Manual reset for testing or restarting the mission
         function resetMission() {
             if(confirm("DANGER: Wiping all mission data. Confirm?")) {
                 localStorage.clear();
@@ -245,7 +273,6 @@
             }
         }
 
-        // Initial UI state setup
         updateUI();
     </script>
 </body>

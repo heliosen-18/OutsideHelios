@@ -12,37 +12,76 @@
     </style>
 </head>
 <body>
-
-    <h2>A1Z26 Decoder</h2>
-    <p>Enter numbers separated by spaces, dashes, or commas (e.g., <code>8 5 12 12 15</code>):</p>
-    
-    <textarea id="inputBox" placeholder="Type numbers here..."></textarea>
-    
-    <div id="output">Your decoded message will appear here...</div>
-
+    <div class="terminal-container">
+        <h2 class="logo">A1Z26 SIGNAL DECODER</h2>
+        <p>ENTER NUMERIC FREQUENCY:</p>
+        
+        <input type="text" id="numeric-input" placeholder="e.g. 1 12 1 19 11 1" 
+            style="background: #000; color: #0267C1; border: 1px solid #591F0A; padding: 10px; width: 80%;">
+        
+        <button onclick="decryptSignal()" class="cta-button" style="margin-top: 10px;">DECRYPT SIGNAL</button>
+        
+        <div id="decoded-output" class="code-window" style="margin-top: 20px; height: 50px; display: none;">
+            </div>
+    </div>
+    <div class="terminal-container">
+        <h2 class="logo">A1Z26 SIGNAL ENCODER</h2>
+        <p>ENTER TEXT TO ENCRYPT (Letters only):</p>
+        
+        <input type="text" id="text-input" placeholder="e.g. ALASKA" 
+            style="background: #000; color: #EFA00B; border: 1px solid #591F0A; padding: 10px; width: 80%; text-transform: uppercase;">
+        
+        <button onclick="encryptSignal()" class="cta-button" style="margin-top: 10px;">ENCODE SIGNAL</button>
+        
+        <div id="encoded-output" class="code-window" style="margin-top: 20px; height: 50px; display: none;">
+            </div>
+    </div>
     <script>
-        const input = document.getElementById('inputBox');
-        const output = document.getElementById('output');
-
-        input.addEventListener('input', () => {
-            const rawValue = input.value;
+        function decryptSignal() {
+            const input = document.getElementById('numeric-input').value;
+            const outputDiv = document.getElementById('decoded-output');
             
-            // 1. Split the string by any non-digit character (space, dash, comma)
-            const numbers = rawValue.split(/[^0-9]+/);
+            // Split the input by dashes or spaces
+            const numberArray = input.split(/[- ]+/);
             
-            // 2. Map through numbers and convert to letters
-            const decoded = numbers
-                .map(num => {
-                    let n = parseInt(num);
-                    if (n >= 1 && n <= 26) {
-                        return String.fromCharCode(n + 64); // 64 + 1 = 'A'
-                    }
-                    return ''; // Ignore invalid numbers
-                })
-                .join('');
+            // Convert numbers to letters
+            const decryptedMessage = numberArray.map(num => {
+                const n = parseInt(num);
+                if (n >= 1 && n <= 26) {
+                    // 64 is the offset for Uppercase A in ASCII (64 + 1 = 65, which is 'A')
+                    return String.fromCharCode(64 + n);
+                }
+                return ''; // Ignore invalid numbers
+            }).join('');
 
-            output.innerText = decoded || "Waiting for valid numbers...";
-        });
+            // Display the result
+            if (decryptedMessage) {
+                outputDiv.style.display = 'block';
+                outputDiv.innerHTML = `> DECRYPTED MESSAGE: ${decryptedMessage}`;
+            }
+        }
+        function encryptSignal() {
+            const input = document.getElementById('text-input').value.toUpperCase();
+            const outputDiv = document.getElementById('encoded-output');
+            
+            // Remove everything that isn't a letter
+            const cleanInput = input.replace(/[^A-Z]/g, '');
+            
+            const encodedArray = [];
+            for (let i = 0; i < cleanInput.length; i++) {
+                // charCodeAt(0) returns the ASCII value (A = 65)
+                const num = cleanInput.charCodeAt(i) - 64;
+                encodedArray.push(num);
+            }
+
+            const finalCode = encodedArray.join('');
+
+            // Display the result
+            if (finalCode) {
+                outputDiv.style.display = 'block';
+                outputDiv.innerHTML = `> ENCODED FREQUENCY: ${finalCode}`;
+            }
+        }
     </script>
 </body>
 </html>

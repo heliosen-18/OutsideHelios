@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAC | Cipher Utility</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <style>
+        .cipher-box {
+            background: rgba(2, 103, 193, 0.05);
+            border: 2px solid #D65108;
+            padding: 30px;
+            border-radius: 4px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .input-group { margin-bottom: 20px; text-align: left; }
+
+        label {
+            display: block;
+            color: #0267C1;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* Styling for the new Toggle Switch */
+        .mode-switch {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px;
+            background: #FDFCF0;
+            border: 1px solid #0267C1;
+            color: #591F0A;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .mode-btn.active {
+            background: #0267C1;
+            color: #FDFCF0;
+        }
+
+        select, textarea {
+            width: 100%;
+            background: #FDFCF0;
+            border: 1px solid #0267C1;
+            color: #591F0A;
+            font-family: 'Courier New', monospace;
+            padding: 10px;
+        }
+
+        .output-area {
+            background: #000;
+            color: #4ade80; /* Terminal Green */
+            padding: 15px;
+            min-height: 80px;
+            border: 1px solid #591F0A;
+            border-radius: 4px;
+            margin-top: 10px;
+            word-wrap: break-word;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="classification-banner">
+        TOP SECRET <span class="compartment"> // CRYPTO-LOGIC UNIT</span>
+    </div>
+
+    <div class="terminal-container">
+        <header class="terminal-header">
+            <h1>Cipher Utility v2.0</h1>
+            <p class="coords">ROTATION PROTOCOL: ACTIVE</p>
+        </header>
+
+        <main>
+            <div class="cipher-box">
+                <div class="mode-switch">
+                    <button id="encBtn" class="mode-btn active" onclick="setMode('encrypt')">ENCRYPT</button>
+                    <button id="decBtn" class="mode-btn" onclick="setMode('decrypt')">DECRYPT</button>
+                </div>
+
+                <div class="input-group">
+                    <label>SHIFT START (A = ?)</label>
+                    <select id="shiftKey" onchange="runCipher()">
+                        <script>
+                            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                            for (let i = 0; i < 26; i++) {
+                                document.write(`<option value="${i}">A ➔ ${alphabet[i]}</option>`);
+                            }
+                        </script>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>INPUT PHRASE</label>
+                    <textarea id="userInput" rows="4" placeholder="TYPE HERE..." oninput="runCipher()"></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label>// OUTPUT</label>
+                    <div id="cipherOutput" class="output-area">WAITING...</div>
+                </div>
+            </div>
+
+            <div class="action-bar">
+                <a href="dashboard.html" class="btn">Return to Dashboard</a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let currentMode = 'encrypt';
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('encBtn').classList.toggle('active', mode === 'encrypt');
+            document.getElementById('decBtn').classList.toggle('active', mode === 'decrypt');
+            runCipher(); // Re-run calculation when mode changes
+        }
+
+        function runCipher() {
+            const input = document.getElementById('userInput').value.toUpperCase();
+            let shift = parseInt(document.getElementById('shiftKey').value);
+            const outputElement = document.getElementById('cipherOutput');
+            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            
+            if (!input) {
+                outputElement.innerText = "WAITING...";
+                return;
+            }
+
+            // IF DECRYPTING: Reverse the shift
+            if (currentMode === 'decrypt') {
+                shift = (26 - shift) % 26;
+            }
+
+            let result = "";
+            for (let i = 0; i < input.length; i++) {
+                let char = input[i];
+                let index = alphabet.indexOf(char);
+
+                if (index === -1) {
+                    result += char; 
+                } else {
+                    let newIndex = (index + shift) % 26;
+                    result += alphabet[newIndex];
+                }
+            }
+            outputElement.innerText = result;
+        }
+    </script>
+</body>
+</html>
